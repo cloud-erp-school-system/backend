@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cloud-erp-school-system/backend.svg?branch=master)](https://travis-ci.org/cloud-erp-school-system/backend)   
+[![Build Status](https://travis-ci.org/github/cloud-erp-school-system/backend.svg?branch=master)](https://travis-ci.org/github/cloud-erp-school-system/backend)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cloud-erp-school-system_backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=cloud-erp-school-system_backend)
 
 # Cloud ERP School Backend
