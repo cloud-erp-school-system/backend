@@ -1,0 +1,10 @@
+language: java
+jdk:
+  - openjdk15
+addons:
+  sonarcloud:
+    organization: "cloud-erp-school-system"
+    token:
+      secure: "**************************" # encrypted value of your token
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=cloud-erp-school-system_backend
