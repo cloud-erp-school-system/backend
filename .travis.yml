@@ -5,7 +5,7 @@ addons:
   sonarcloud:
     organization: cloud-erp-school-system
 script:
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=cloud-erp-school-system_backendtravis
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pproduction sonar:sonar -Dsonar.projectKey=cloud-erp-school-system_backendtravis
 deploy:
   provider: s3
   access_key_id: AKIA2YWM6KPSHAXMD5TL
