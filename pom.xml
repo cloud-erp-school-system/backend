@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.erp.school</groupId>
     <artifactId>cloud-erp-school</artifactId>
@@ -37,7 +39,7 @@
             </snapshots>
         </repository>
     </repositories>
-    
+
     <pluginRepositories>
         <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
         <pluginRepository>
@@ -46,7 +48,7 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </pluginRepository> 
+        </pluginRepository>
     </pluginRepositories>
 
     <dependencyManagement>
@@ -90,16 +92,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!-- Initially, let's use H2 for all classes as Flyway will take care of database scripts we don't need to worry now.
+                <dependency>
+                    <groupId>org.mariadb.jdbc</groupId>
+                    <artifactId>mariadb-java-client</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+                -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -162,7 +161,9 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <!-- Initially, let's use H2 for all classes as Flyway will take care of database scripts we don't need to worry now.
             <scope>test</scope>
+            -->
         </dependency>
     </dependencies>
 
@@ -219,7 +220,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                             <productionMode>true</productionMode>
+                            <productionMode>true</productionMode>
                             <pnpmEnable>false</pnpmEnable>
                         </configuration>
                     </plugin>
