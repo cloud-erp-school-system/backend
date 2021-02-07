@@ -16,4 +16,3 @@ deploy:
   on:
     repo: cloud-erp-school-system/backend
     branch: main
-  glob: "*.jar"
