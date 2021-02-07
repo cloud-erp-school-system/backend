@@ -16,4 +16,6 @@ deploy:
   on:
     repo: cloud-erp-school-system/backend
     branch: main
-  skip_cleanup: 'true'
+  skip_cleanup: 'false'
+  local_dir: target
+  glob: "*.jar"
