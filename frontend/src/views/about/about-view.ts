@@ -7,6 +7,6 @@ export class AboutView extends LitElement {
     return this;
   }
   render() {
-    return html`<div>Content placeholder</div>`;
+    return html`<div>Temporary page</div>`;
   }
 }
