@@ -6,7 +6,3 @@ addons:
     organization: "cloud-erp-school-system"
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=cloud-erp-school-system_backend
-services:
-  - mysql
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS erp;'
