@@ -24,6 +24,11 @@ jobs:
       run: mvn -B package --file pom.xml   
     - name: Qodana - Code Inspection
       uses: JetBrains/qodana-action@v1.0-eap
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
