@@ -2,6 +2,8 @@
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cloud-erp-school-system_backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=cloud-erp-school-system_backend)
 
+![Java CI with Maven](https://github.com/cloud-erp-school-system/backend/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 # Cloud ERP School Backend
 
 ## Database
