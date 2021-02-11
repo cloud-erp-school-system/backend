@@ -21,4 +21,6 @@ jobs:
       with:
         java-version: 15
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml   
+    - name: Qodana - Code Inspection
+      uses: JetBrains/qodana-action@v1.0-eap
