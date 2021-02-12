@@ -20,21 +20,21 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 15
-    - name: Build with Maven
-      run: mvn clean install -Pproduction sonar:sonar
-        -Dsonar.host.url=https://sonarcloud.io
-        -Dsonar.organization=cloud-erp-school-system
-        -Dsonar.projectKey=cloud-erp-school-system_backend
-#    - name: Qodana - Code Inspection
-#      uses: JetBrains/qodana-action@v1.0-eap
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
+    - name: Build with Maven and Analyse with SonarCloud
+      run: mvn -B verify install -Pproduction sonar:sonar \
+        -Dsonar.organization=cloud-erp-school-system \
+        -Dsonar.projectKey=cloud-erp-school-system_backend \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=$SONAR_TOKEN \
+        -Dsonar.coverage.jacoco.xmlReportPaths=${project.build.directory}/site/jacoco/jacoco.xml
       env:
-        projectKey: cloud-erp-school-system_backend
-        orgnization: cloud-erp-school-system
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
         path: /github/workspace/
+
+
+        #    - name: Qodana - Code Inspection
+        #      uses: JetBrains/qodana-action@v1.0-eap
