@@ -27,7 +27,6 @@ jobs:
     - name: Sonar with run Method
       run: >
         mvn --batch-mode
-        -Pcoverage
         sonar:sonar
         -Dsonar.host.url=https://sonarcloud.io
         -Dsonar.organization=cloud-erp-school-system
