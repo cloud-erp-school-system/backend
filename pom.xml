@@ -10,6 +10,7 @@
 
     <properties>
         <java.version>15</java.version>
+        <maven.compiler.release>15</maven.compiler.release>
         <vaadin.version>18.0.5</vaadin.version>
     </properties>
 
