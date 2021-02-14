@@ -5,7 +5,6 @@ import com.vaadin.flow.server.PWA;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.web.context.WebApplicationContext;
 import org.vaadin.artur.helpers.LaunchUtil;
 
 @SpringBootApplication
@@ -14,10 +13,5 @@ public class SchoolApplication extends SpringBootServletInitializer implements A
 
     public static void main(String[] args) {
         LaunchUtil.launchBrowserInDevelopmentMode(SpringApplication.run(SchoolApplication.class, args));
-    }
-
-    @Override
-    protected WebApplicationContext run(SpringApplication application) {
-        return super.run(application);
     }
 }

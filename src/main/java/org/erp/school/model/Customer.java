@@ -1,6 +1,8 @@
 package org.erp.school.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -12,18 +14,16 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "customer")
+@NoArgsConstructor
 public class Customer {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
-    public String firstName;
+    private String firstName;
 
-    public String lastName;
-
-    public Customer() {
-    }
+    private String lastName;
 
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
