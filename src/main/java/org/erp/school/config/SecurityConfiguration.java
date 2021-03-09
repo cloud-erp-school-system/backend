@@ -1,7 +1,5 @@
 package org.erp.school.config;
 
-import org.erp.school.security.CustomRequestCache;
-import org.erp.school.security.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,9 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .requestCache().requestCache(new CustomRequestCache())
-            .and().authorizeRequests()
-            .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+            .authorizeRequests()
             .anyRequest().authenticated()
             .and().formLogin()
             .loginPage(LOGIN_URL).permitAll()
