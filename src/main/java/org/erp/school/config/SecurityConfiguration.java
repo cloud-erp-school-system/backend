@@ -11,70 +11,74 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN_PROCESSING_URL = "/login";
-    private static final String LOGIN_FAILURE_URL = "/login?error";
-    private static final String LOGIN_URL = "/login";
-    private static final String LOGOUT_SUCCESS_URL = "/login";
+  private static final String LOGIN_PROCESSING_URL = "/login";
+  private static final String LOGIN_FAILURE_URL = "/login?error";
+  private static final String LOGIN_URL = "/login";
+  private static final String LOGOUT_SUCCESS_URL = "/login";
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-            .anyRequest().authenticated()
-            .and().formLogin()
-            .loginPage(LOGIN_URL).permitAll()
-            .loginProcessingUrl(LOGIN_PROCESSING_URL)
-            .failureUrl(LOGIN_FAILURE_URL)
-            .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .anyRequest()
+        .permitAll()
+        .and()
+        .formLogin()
+        .loginPage(LOGIN_URL)
+        .permitAll()
+        .loginProcessingUrl(LOGIN_PROCESSING_URL)
+        .failureUrl(LOGIN_FAILURE_URL)
+        .and()
+        .logout()
+        .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
 
-            // Configure logout
-            .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
-    }
+        // Configure logout
+        .and()
+        .logout()
+        .logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+  }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withUsername("user")
-                    .password("{noop}password")
-                    .roles("USER")
-                    .build();
+  @Bean
+  @Override
+  public UserDetailsService userDetailsService() {
+    UserDetails user = User.withUsername("user").password("{noop}password").roles("USER").build();
 
-        return new InMemoryUserDetailsManager(user);
-    }
+    return new InMemoryUserDetailsManager(user);
+  }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(
-                // Client-side JS
-                "/VAADIN/**",
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring()
+        .antMatchers(
+            // Client-side JS
+            "/VAADIN/**",
 
-                // the standard favicon URI
-                "/favicon.ico",
+            // the standard favicon URI
+            "/favicon.ico",
 
-                // the robots exclusion standard
-                "/robots.txt",
+            // the robots exclusion standard
+            "/robots.txt",
 
-                // web application manifest
-                "/manifest.webmanifest",
-                "/sw.js",
-                "/offline.html",
+            // web application manifest
+            "/manifest.webmanifest",
+            "/sw.js",
+            "/offline.html",
 
-                // icons and images
-                "/icons/**",
-                "/images/**",
-                "/styles/**",
+            // icons and images
+            "/icons/**",
+            "/images/**",
+            "/styles/**",
 
-                // (development mode) H2 debugging console
-                "/h2-console/**",
+            // (development mode) H2 debugging console
+            "/h2-console/**",
 
-                //initial api test
-                "/greeting",
-                "/helloController");
-    }
+            // initial api test
+            "/greeting",
+            "/helloController");
+  }
 }
