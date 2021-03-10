@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/cloud-erp-school-system/backend.svg?branch=main)](https://travis-ci.org/cloud-erp-school-system/backend)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cloud-erp-school-system_backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=cloud-erp-school-system_backend)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cloud-erp-school-system_backendtravis&metric=alert_status)](https://sonarcloud.io/dashboard?id=cloud-erp-school-system_backendtravis)
 
 ![Java CI with Maven](https://github.com/cloud-erp-school-system/backend/workflows/Java%20CI%20with%20Maven/badge.svg)
 
