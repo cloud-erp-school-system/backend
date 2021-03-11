@@ -30,8 +30,6 @@ class SchoolApplicationTests {
                                                                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        assertEquals(content, "Hello, World");
+        assertEquals(302, status);
     }
 }
