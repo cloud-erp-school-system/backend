@@ -42,4 +42,8 @@ public class Client {
       joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
       inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
   private List<Document> documents;
+
+  private String designation;
+  private String institution;
+  private String country;
 }
