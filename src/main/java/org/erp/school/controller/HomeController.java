@@ -26,6 +26,6 @@ public class HomeController {
     public String greeting(Principal principal) {
         repository.deleteAll();
         repository.save(new Customer("Alice", "Smith"));
-        return "Hello, World,\n" + principal;
+        return String.format("Hello, %s", principal.getName());
     }
 }
