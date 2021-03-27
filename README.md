@@ -8,7 +8,7 @@
 
 ## Swagger (API Documentation)
 
-REST API documentation can be accessed by `http://localhost:9000/swagger-ui.html`
+REST API documentation can be accessed by `http://localhost:8080/swagger-ui/`
 
 ## Documenting APIs
 
