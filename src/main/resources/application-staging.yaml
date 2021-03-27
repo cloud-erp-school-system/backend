@@ -25,6 +25,9 @@ spring:
     check-template-location: false
 # MariaDb configuration
 # Initially, let's use H2 for all classes as Flyway will take care of database scripts we don't need to worry now.
+#
+######## STAGE should use MariaDb ######
+#
 #  datasource:
 #    password: erp
 #    url: jdbc:mariadb://localhost:3306/erp

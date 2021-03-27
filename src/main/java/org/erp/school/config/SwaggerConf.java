@@ -30,7 +30,7 @@ public class SwaggerConf {
                 .description("Student & school management platform")
                 .contact(new Contact(
                         "Cloud ERP Team",
-                        "https://github.com/orgs/cloud-erp-school-system/people",                        ""))
+                        "https://github.com/orgs/cloud-erp-school-system/people", ""))
                 .license("GPL-3")
                 .version("1.00")
                 .build();
