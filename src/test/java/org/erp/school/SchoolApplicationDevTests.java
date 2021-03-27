@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = SchoolApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("staging")
-class SchoolApplicationTests {
+@ActiveProfiles("dev")
+class SchoolApplicationDevTests {
     @Autowired
     protected MockMvc mvc;
 
@@ -29,6 +29,6 @@ class SchoolApplicationTests {
                                                                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
-        assertEquals(302, status);
+        assertEquals(200, status);
     }
 }
