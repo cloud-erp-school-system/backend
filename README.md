@@ -6,6 +6,14 @@
 
 # Cloud ERP School Backend
 
+## Swagger (API Documentation)
+
+REST API documentation can be accessed by `http://localhost:9000/swagger-ui.html`
+
+## Documenting APIs
+
+More information on how to document new APIs, can be found [here](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
+
 ## Database
 We use MariaDb as it is a more updated/maintained version of MySQL.
 

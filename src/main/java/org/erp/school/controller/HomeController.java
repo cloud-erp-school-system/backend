@@ -1,5 +1,6 @@
 package org.erp.school.controller;
 
+import io.swagger.annotations.Api;
 import org.erp.school.model.Customer;
 import org.erp.school.service.repository.CustomerRepository;
 import org.keycloak.KeycloakSecurityContext;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 
 @Controller
+@Api
 public class HomeController {
 
     private final CustomerRepository repository;
