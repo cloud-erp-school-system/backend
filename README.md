@@ -6,6 +6,19 @@
 
 # Cloud ERP School Backend
 
+## Swagger (API Documentation)
+
+REST API documentation can be accessed by `http://localhost:9000/swagger-ui.html`
+
+## Documenting APIs
+
+More information on how to document new APIs, can be found [here](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
+
+## Google Java Format
+
+For this project we are using Google Java Format. This is important to have everyone in the same code format.
+Please, check this [link](https://github.com/google/google-java-format) for more details on how to install in your IDEA.
+
 ## Database
 We use MariaDb as it is a more updated/maintained version of MySQL.
 
