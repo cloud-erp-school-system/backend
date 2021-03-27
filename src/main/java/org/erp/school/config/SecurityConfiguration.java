@@ -18,39 +18,39 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @KeycloakConfiguration
 public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter {
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    super.configure(http);
-    http.authorizeRequests().anyRequest().authenticated();
-    http.csrf().disable();
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
+        http.authorizeRequests().anyRequest().authenticated();
+        http.csrf().disable();
+    }
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) {
-    SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
-    simpleAuthorityMapper.setPrefix("ROLE_");
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) {
+        SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
+        simpleAuthorityMapper.setPrefix("ROLE_");
 
-    KeycloakAuthenticationProvider keycloakAuthenticationProvider =
-        keycloakAuthenticationProvider();
-    keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
-    authenticationManagerBuilder.authenticationProvider(keycloakAuthenticationProvider);
-  }
+        KeycloakAuthenticationProvider keycloakAuthenticationProvider =
+                keycloakAuthenticationProvider();
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
+        authenticationManagerBuilder.authenticationProvider(keycloakAuthenticationProvider);
+    }
 
-  @Bean
-  @Override
-  protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-    return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
-  }
+    @Bean
+    @Override
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+    }
 
-  @Bean
-  @Override
-  @ConditionalOnMissingBean(HttpSessionManager.class)
-  protected HttpSessionManager httpSessionManager() {
-    return new HttpSessionManager();
-  }
+    @Bean
+    @Override
+    @ConditionalOnMissingBean(HttpSessionManager.class)
+    protected HttpSessionManager httpSessionManager() {
+        return new HttpSessionManager();
+    }
 
-  @Bean
-  public KeycloakSpringBootConfigResolver keycloakSpringBootConfigResolver() {
-    return new KeycloakSpringBootConfigResolver();
-  }
+    @Bean
+    public KeycloakSpringBootConfigResolver keycloakSpringBootConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
+    }
 }
