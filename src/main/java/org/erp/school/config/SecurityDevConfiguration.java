@@ -15,31 +15,36 @@ import org.springframework.web.context.WebApplicationContext;
 @Configuration
 public class SecurityDevConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll().and()
-                .authorizeRequests().antMatchers("/console/**").permitAll();
-        temporaryDisableItens(http);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers("/")
+        .permitAll()
+        .and()
+        .authorizeRequests()
+        .antMatchers("/console/**")
+        .permitAll();
+    temporaryDisableItens(http);
+  }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**");
-    }
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers("/**");
+  }
 
-    @Bean
-    @Scope(scopeName = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public AccessToken accessToken() {
-        AccessToken accessToken = new AccessToken();
-        accessToken.setSubject("abc");
-        accessToken.setName("Tester");
+  @Bean
+  @Scope(scopeName = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+  public AccessToken accessToken() {
+    AccessToken accessToken = new AccessToken();
+    accessToken.setSubject("abc");
+    accessToken.setName("Tester");
 
-        return accessToken;
-    }
+    return accessToken;
+  }
 
-    private void temporaryDisableItens(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.cors().disable();
-        http.headers().frameOptions().disable();
-    }
+  private void temporaryDisableItens(HttpSecurity http) throws Exception {
+    http.csrf().disable();
+    http.cors().disable();
+    http.headers().frameOptions().disable();
+  }
 }

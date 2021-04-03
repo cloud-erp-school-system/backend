@@ -13,20 +13,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 public class Address {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+  @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  private String id;
 
-    @Column(name = "street")
-    private String street;
+  @Column(name = "street")
+  private String street;
 
-    @Column(name = "postcode")
-    private String postcode;
+  @Column(name = "postcode")
+  private String postcode;
 
-    @Column(name = "city")
-    private String city;
+  @Column(name = "city")
+  private String city;
 
-    @Column(name = "country")
-    private String country;
+  @Column(name = "country")
+  private String country;
 }
