@@ -23,6 +23,11 @@ spring:
     show-sql: true
   mustache:
     check-template-location: false
+docs:
+  storage:
+    type: filesystem
+    directory: /data/storage/documents
+
 # MariaDb configuration
 # Initially, let's use H2 for all classes as Flyway will take care of database scripts we don't need to worry now.
 #

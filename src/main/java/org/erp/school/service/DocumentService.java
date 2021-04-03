@@ -1,20 +1,21 @@
 package org.erp.school.service;
 
-import org.erp.school.dto.DocumentRequestDto;
+import org.erp.school.model.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 public interface DocumentService {
 
-    public List<String> fetchAllDocIdsForOrg(String orgId);
+  List<Document> fetchDocumentsClientId(String clientId);
 
-    public boolean deleteDocuments(String docIds);
+  void deleteDocument(String docIds) throws FileNotFoundException;
 
-    public void postDocuments(MultipartFile[] documents, DocumentRequestDto docRequest);
+  void createDocuments(MultipartFile[] documents, String clientId);
 
-    public String getFile(String docId) throws IOException;
+  String getDocument(String documentId) throws IOException;
 }

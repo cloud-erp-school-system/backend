@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "docs.storage.type",
+      "type": "java.lang.String",
+      "description": "Definition of type storage, it can be for now S3 or filesystem."
+    },
+    {
+      "name": "docs.storage.directory",
+      "type": "java.lang.String",
+      "description": "Folder where files will be saved."
+    }
+  ] }

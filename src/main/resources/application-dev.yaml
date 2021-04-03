@@ -23,8 +23,8 @@ spring:
     show-sql: true
   servlet:
     multipart:
-      max-file-size: 128MB
-      max-request-size: 128MB
+      max-file-size: 12MB
+      max-request-size: 12MB
       enabled: true
   mustache:
     check-template-location: false
@@ -32,7 +32,10 @@ spring:
     exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration
 docs:
   storage:
+    type: filesystem
     directory: /Users/adityasampath/Downloads
+
+
 # MariaDb configuration
 # Initially, let's use H2 for all classes as Flyway will take care of database scripts we don't need to worry now.
 #  datasource:

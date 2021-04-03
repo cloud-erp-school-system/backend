@@ -1,8 +1,6 @@
 package org.erp.school.controller;
 
 import io.swagger.annotations.Api;
-import org.erp.school.model.Customer;
-import org.erp.school.service.repository.CustomerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,22 +12,14 @@ import java.security.Principal;
 @Api
 public class HomeController {
 
-    private final CustomerRepository repository;
+  @RequestMapping("/helloController")
+  @PreAuthorize("isAuthenticated()")
+  @ResponseBody
+  public String greeting(Principal principal) {
+    return String.format("Hello, %s", getAuthenticatedName(principal));
+  }
 
-    public HomeController(CustomerRepository repository) {
-        this.repository = repository;
-    }
-
-    @RequestMapping("/helloController")
-    @PreAuthorize("isAuthenticated()")
-    @ResponseBody
-    public String greeting(Principal principal) {
-        repository.deleteAll();
-        repository.save(new Customer("Alice", "Smith"));
-        return String.format("Hello, %s", getAuthenticatedName(principal));
-    }
-
-    private String getAuthenticatedName(Principal principal) {
-        return principal == null ? "Developer" : principal.getName();
-    }
+  private String getAuthenticatedName(Principal principal) {
+    return principal == null ? "Developer" : principal.getName();
+  }
 }

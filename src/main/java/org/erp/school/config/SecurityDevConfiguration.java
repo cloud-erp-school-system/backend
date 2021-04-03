@@ -19,9 +19,7 @@ public class SecurityDevConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll().and()
                 .authorizeRequests().antMatchers("/console/**").permitAll();
-        http.csrf().disable();
-        http.cors().disable();
-        http.headers().frameOptions().disable();
+        temporaryDisableItens(http);
     }
 
     @Override
@@ -37,5 +35,11 @@ public class SecurityDevConfiguration extends WebSecurityConfigurerAdapter {
         accessToken.setName("Tester");
 
         return accessToken;
+    }
+
+    private void temporaryDisableItens(HttpSecurity http) throws Exception {
+        http.csrf().disable();
+        http.cors().disable();
+        http.headers().frameOptions().disable();
     }
 }
