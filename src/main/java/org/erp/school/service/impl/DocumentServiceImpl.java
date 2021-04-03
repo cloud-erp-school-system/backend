@@ -1,7 +1,8 @@
 package org.erp.school.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.erp.school.model.Client;
 import org.erp.school.model.Document;
 import org.erp.school.service.DocumentService;
 import org.erp.school.service.repository.ClientRepository;
@@ -18,17 +19,19 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+
+import static java.time.LocalTime.now;
 
 @Service
 @Slf4j
 public class DocumentServiceImpl implements DocumentService {
   private final DocumentRepository documentRepository;
-private final ClientRepository clientRepository;
+  private final ClientRepository clientRepository;
 
   @Value("${docs.storage.type}")
   private String storageType;
@@ -36,7 +39,8 @@ private final ClientRepository clientRepository;
   @Value("${docs.storage.directory}")
   private String storageDirectory;
 
-  public DocumentServiceImpl(DocumentRepository documentRepository, ClientRepository clientRepository) {
+  public DocumentServiceImpl(
+      DocumentRepository documentRepository, ClientRepository clientRepository) {
     this.documentRepository = documentRepository;
     this.clientRepository = clientRepository;
   }
@@ -56,6 +60,7 @@ private final ClientRepository clientRepository;
     }
 
     // delete from database
+    // ToDo: Delete from relation of Client
     documentRepository.deleteById(document.getId());
 
     // delete file
@@ -66,7 +71,7 @@ private final ClientRepository clientRepository;
 
   @Transactional
   @Override
-  public void createDocuments(MultipartFile[] documents, String clientId) {
+  public List<Document> createDocuments(MultipartFile[] documents, String clientId) {
     // upload docs to storage unit
     var relativePath = getRelativePathForFiles();
     var folderStorage = new File(relativePath);
@@ -90,7 +95,7 @@ private final ClientRepository clientRepository;
       document.setFileSize(file.getSize());
       document.setFileType(file.getContentType());
       document.setStorageType(storageType);
-
+      document.setCreatedDate(LocalDateTime.now());
       // create on storageType
       try (OutputStream os = Files.newOutputStream(path)) {
         os.write(file.getBytes());
@@ -102,16 +107,22 @@ private final ClientRepository clientRepository;
 
     // once uploaded persist in db
     documentRepository.saveAll(documentList);
+
+    if (StringUtils.isNotEmpty(clientId)) {
+      Client client = clientRepository.findById(clientId).orElseThrow();
+      client.getDocuments().addAll(documentList);
+      clientRepository.save(client);
+    }
+    return documentList;
   }
 
   @Override
-  public String getDocument(String documentId) throws IOException {
+  public File getDocument(String documentId) throws IOException {
     var document = documentRepository.findById(documentId).orElseThrow();
-    var file = new File(URI.create(document.getUri()));
+    var file = new File(document.getUri());
 
     if (file.exists()) {
-      var fileContent = FileUtils.readFileToByteArray(file);
-      return Base64.getEncoder().encodeToString(fileContent);
+      return file;
     } else {
       throw new FileNotFoundException("File not found" + file.getAbsolutePath());
     }
@@ -120,11 +131,11 @@ private final ClientRepository clientRepository;
   private String getRelativePathForFiles() {
     var instance = Calendar.getInstance();
     return storageDirectory
-        + File.pathSeparator
+        + File.separator
         + instance.get(Calendar.YEAR)
-        + File.pathSeparator
-        + instance.get(Calendar.MONTH)
-        + File.pathSeparator
+        + File.separator
+        + (instance.get(Calendar.MONTH) + 1)
+        + File.separator
         + instance.get(Calendar.DAY_OF_MONTH);
   }
 }

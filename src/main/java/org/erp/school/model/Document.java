@@ -3,8 +3,12 @@ package org.erp.school.model;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -28,5 +32,5 @@ public class Document {
   private String storageType;
 
   @Column(name = "created_date")
-  private Timestamp createdDate;
+  private LocalDateTime createdDate;
 }

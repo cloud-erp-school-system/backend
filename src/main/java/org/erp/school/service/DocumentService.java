@@ -4,6 +4,7 @@ import org.erp.school.model.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +16,7 @@ public interface DocumentService {
 
   void deleteDocument(String docIds) throws FileNotFoundException;
 
-  void createDocuments(MultipartFile[] documents, String clientId);
+  List<Document> createDocuments(MultipartFile[] documents, String clientId);
 
-  String getDocument(String documentId) throws IOException;
+  File getDocument(String documentId) throws IOException;
 }

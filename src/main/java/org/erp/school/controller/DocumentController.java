@@ -1,12 +1,20 @@
 package org.erp.school.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.erp.school.controller.util.SwaggerConstants;
 import org.erp.school.dto.DocumentDto;
-import org.erp.school.dto.DocumentRequestDto;
 import org.erp.school.service.DocumentService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,34 +45,47 @@ public class DocumentController {
   }
 
   @PostMapping(name = "Endpoint for uploading documents")
-  public @ResponseBody ResponseEntity postDocuments(
-      @RequestParam(name = "docRequestJson") String docRequestJson,
+  public @ResponseBody ResponseEntity<List<DocumentDto>> postDocuments(
+      @RequestParam(name = "clientId", required = false) String clientId,
       @RequestParam(name = "documents") MultipartFile[] documents) {
 
     try {
-      ObjectMapper objMapper = new ObjectMapper();
-      log.info(String.format("Request: %s", docRequestJson));
-      DocumentRequestDto docReq = objMapper.readValue(docRequestJson, DocumentRequestDto.class);
-      documentService.createDocuments(documents, docReq.getClientId());
+      log.info(String.format("Upload file for clientId: %s", clientId));
+      var documentDtoList =
+          documentService.createDocuments(documents, clientId).stream()
+              .map(document -> new DocumentDto(document.getId(), document.getUri()))
+              .collect(Collectors.toList());
+      return new ResponseEntity<>(documentDtoList, HttpStatus.CREATED);
     } catch (Exception e) {
       log.error("Could not create document", e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @GetMapping(path = "/{documentId}", name = "Endpoint for fetching documents")
-  public @ResponseBody ResponseEntity getDocument(@Valid @PathVariable("documentId") String docId) {
-
-    String fileBase64 = null;
+  @ApiOperation(value = "Download a document", notes = "Download a document by its documentIt")
+  @ApiResponses(
+      value = {
+        @ApiResponse(code = 200, message = SwaggerConstants.OK_MESSAGE, response = Resource.class)
+      })
+  public @ResponseBody ResponseEntity<Resource> getDocument(
+      @Valid @PathVariable("documentId") String docId) {
     try {
-      fileBase64 = documentService.getDocument(docId);
-    } catch (Exception e) {
-      log.error("Exception while getting document", e);
-    }
+      File file = documentService.getDocument(docId);
+      FileSystemResource resource = new FileSystemResource(file);
+      MediaType mediaType =
+          MediaTypeFactory.getMediaType(resource).orElse(MediaType.APPLICATION_OCTET_STREAM);
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(mediaType);
+      headers.setContentLength(file.length());
 
-    return new ResponseEntity<>(fileBase64, HttpStatus.OK);
+      ContentDisposition disposition =
+          ContentDisposition.builder("attachment").filename(file.getName()).build();
+      headers.setContentDisposition(disposition);
+      return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @DeleteMapping(path = "/{documentId}", name = "Endpoint for deleting documents")
@@ -75,23 +97,6 @@ public class DocumentController {
     } catch (FileNotFoundException e) {
       log.error("File could not be found", e);
       return ResponseEntity.notFound().build();
-    }
-  }
-
-  @GetMapping(
-      path = "/client/{clientId}",
-      name = "Endpoint for fetching all documents for an client")
-  public @ResponseBody ResponseEntity<List<DocumentDto>> fetchDocuments(
-      @Valid @PathVariable("clientId") String clientId) {
-    try {
-      var documentDtoList =
-          documentService.fetchDocumentsClientId(clientId).stream()
-              .map(document -> new DocumentDto(document.getUri()))
-              .collect(Collectors.toList());
-      return new ResponseEntity<>(documentDtoList, HttpStatus.OK);
-    } catch (Exception ex) {
-      log.error("Could not fetch documents for client {}", clientId, ex);
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
