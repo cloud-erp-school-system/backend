@@ -8,6 +8,7 @@ import org.erp.school.model.Document;
 import org.erp.school.service.DocumentService;
 import org.erp.school.service.repository.ClientRepository;
 import org.erp.school.service.repository.DocumentRepository;
+import org.erp.school.util.SchoolApplicationRuntimeExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Transactional
   @Override
-  public void deleteDocument(String documentId) throws FileNotFoundException {
+  public void deleteDocument(String documentId) throws IOException {
     var document = documentRepository.findById(documentId).orElseThrow(FileNotFoundException::new);
     var file = new File(document.getUri());
     if (!file.exists()) {
@@ -60,16 +61,16 @@ public class DocumentServiceImpl implements DocumentService {
     // delete from database
     // 1. first the link to Client
     Client client = clientRepository.findByDocumentsId(document.getId());
-    client.getDocuments().removeIf(clientDocument -> clientDocument.getId().equals(document.getId()));
+    client
+        .getDocuments()
+        .removeIf(clientDocument -> clientDocument.getId().equals(document.getId()));
     clientRepository.save(client);
 
     // 2. link to document
     documentRepository.deleteById(document.getId());
 
     // delete file
-    if (!file.delete()) {
-      log.warn("Could not delete file " + file);
-    }
+    Files.delete(Paths.get(document.getUri()));
   }
 
   @Transactional
@@ -81,11 +82,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     log.info(String.format("Location to store files today: %s", relativePath));
 
-    if (!folderStorage.exists()) {
-      if (!folderStorage.mkdirs()) {
-        throw new RuntimeException(
-            String.format("Could not create folder to save files %s", folderStorage));
-      }
+    if (!folderStorage.exists() && !folderStorage.mkdirs()) {
+      throw new SchoolApplicationRuntimeExtension(
+          String.format("Could not create folder to save files %s", folderStorage));
     }
 
     List<Document> documentList = new ArrayList<>();
@@ -144,6 +143,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   private String getFileNameForStorage(MultipartFile file) {
     return String.format(
-        "%s.%s", UUID.randomUUID().toString(), FilenameUtils.getExtension(file.getOriginalFilename()));
+        "%s.%s",
+        UUID.randomUUID().toString(), FilenameUtils.getExtension(file.getOriginalFilename()));
   }
 }

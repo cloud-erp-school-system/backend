@@ -14,7 +14,7 @@ public interface DocumentService {
 
   List<Document> fetchDocumentsClientId(String clientId);
 
-  void deleteDocument(String docIds) throws FileNotFoundException;
+  void deleteDocument(String docIds) throws IOException;
 
   List<Document> createDocuments(MultipartFile[] documents, String clientId);
 

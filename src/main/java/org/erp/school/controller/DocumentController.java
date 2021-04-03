@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,8 +94,8 @@ public class DocumentController {
     try {
       documentService.deleteDocument(documentId);
       return ResponseEntity.ok("File deleted");
-    } catch (FileNotFoundException e) {
-      log.error("File could not be found", e);
+    } catch (IOException e) {
+      log.error("File could not be removed", e);
       return ResponseEntity.notFound().build();
     }
   }
