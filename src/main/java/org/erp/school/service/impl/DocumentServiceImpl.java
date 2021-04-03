@@ -1,6 +1,7 @@
 package org.erp.school.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.erp.school.model.Client;
 import org.erp.school.model.Document;
@@ -57,7 +58,12 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     // delete from database
-    // ToDo: Delete from relation of Client
+    // 1. first the link to Client
+    Client client = clientRepository.findByDocumentsId(document.getId());
+    client.getDocuments().removeIf(clientDocument -> clientDocument.getId().equals(document.getId()));
+    clientRepository.save(client);
+
+    // 2. link to document
     documentRepository.deleteById(document.getId());
 
     // delete file
@@ -84,7 +90,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     List<Document> documentList = new ArrayList<>();
     for (MultipartFile file : documents) {
-      var path = Paths.get(relativePath, UUID.randomUUID().toString());
+      var path = Paths.get(relativePath, getFileNameForStorage(file));
 
       // create on database
       var document = new Document();
@@ -134,5 +140,10 @@ public class DocumentServiceImpl implements DocumentService {
         + (instance.get(Calendar.MONTH) + 1)
         + File.separator
         + instance.get(Calendar.DAY_OF_MONTH);
+  }
+
+  private String getFileNameForStorage(MultipartFile file) {
+    return String.format(
+        "%s.%s", UUID.randomUUID().toString(), FilenameUtils.getExtension(file.getOriginalFilename()));
   }
 }
