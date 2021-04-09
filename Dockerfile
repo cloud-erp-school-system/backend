@@ -1,4 +1,4 @@
-FROM openjdk:10-jre-slim
+FROM openjdk:11-jre-slim
 
 WORKDIR /app
 COPY ./target/cloud-erp-school-0.0.1-SNAPSHOT.jar /app
