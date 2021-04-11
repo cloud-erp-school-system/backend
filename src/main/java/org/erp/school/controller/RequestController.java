@@ -13,7 +13,7 @@ public class RequestController {
 	@Autowired
 	private RequestService requestService;
 	
-    @GetMapping("/client/requests/summary")
+    @GetMapping("/client/request/summary")
     @ResponseBody
     public RequestSummary getRequestSummary() {
     	return requestService.getRequestSummary();
