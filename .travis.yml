@@ -17,7 +17,7 @@ deploy:
   acl: private
   on:
     repo: cloud-erp-school-system/backend
-    branch: main
+    branch: master
   skip_cleanup: 'true'
   local_dir: /home/travis/build/cloud-erp-school-system/backend/target/
   glob: "*.jar"
