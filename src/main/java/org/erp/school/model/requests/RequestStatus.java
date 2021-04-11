@@ -1,4 +1,4 @@
-package org.erp.school.controller;
+package org.erp.school.model.requests;
 
 public enum RequestStatus {
 	
