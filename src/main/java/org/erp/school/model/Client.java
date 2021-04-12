@@ -3,6 +3,7 @@ package org.erp.school.model;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,22 +29,20 @@ public class Client {
   @Column(name = "name")
   private String name;
 
-  @OneToOne private Address address;
-
-  @Column(name = "verification_status")
-  private String verificationStatus;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
+  private Address address;
 
   @Column(name = "created_date")
   private Timestamp createdDate;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinTable(
-      name = "client_document",
-      joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
-      inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
+          name = "client_document",
+          joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
+          inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
   private List<Document> documents;
 
-  private String designation;
-  private String institution;
-  private String country;
+  @OneToOne(mappedBy = "client")
+  private ClientRequest clientRequest;
 }

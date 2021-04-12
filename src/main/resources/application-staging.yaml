@@ -20,7 +20,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
+    show-sql: false
+    open-in-view: false
   mustache:
     check-template-location: false
 docs:

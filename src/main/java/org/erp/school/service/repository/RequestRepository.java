@@ -1,12 +1,7 @@
 package org.erp.school.service.repository;
 
-import java.util.List;
-
 import org.erp.school.model.ClientRequest;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RequestRepository extends CrudRepository<ClientRequest, Long> {
-	
-	List<ClientRequest> findAll();
-
+public interface RequestRepository extends JpaRepository<ClientRequest, Long> {
 }

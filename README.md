@@ -12,14 +12,21 @@ REST API documentation can be accessed by `http://localhost:8080/swagger-ui/`
 
 ## Documenting APIs
 
-More information on how to document new APIs, can be found [here](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
+More information on how to document new APIs, can be
+found [here](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
 
 ## Google Java Format
 
-For this project we are using Google Java Format. This is important to have everyone in the same code format.
-Please, check this [link](https://github.com/google/google-java-format) for more details on how to install in your IDEA.
+For this project we are using Google Java Format. This is important to have everyone in the same code format. Please,
+check this [link](https://github.com/google/google-java-format) for more details on how to install in your IDEA.
 
 These are development only variables.
+
+## Compile the project
+
+```java
+./mvnw clean install-DskipTests
+```
 
 ## Deploying using Docker
 

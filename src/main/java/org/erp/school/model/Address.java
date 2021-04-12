@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
@@ -29,4 +30,7 @@ public class Address {
 
   @Column(name = "country")
   private String country;
+
+  @OneToOne(mappedBy = "address")
+  private Client client;
 }
