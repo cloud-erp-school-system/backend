@@ -46,7 +46,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public List<Document> fetchDocumentsClientId(String clientId) {
-    return clientRepository.getOne(clientId).getDocuments();
+    return clientRepository.findById(clientId).orElseThrow().getDocuments();
   }
 
   @Transactional
