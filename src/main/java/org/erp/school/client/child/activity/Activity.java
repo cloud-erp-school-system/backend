@@ -1,19 +1,31 @@
 package org.erp.school.client.child.activity;
 
 import lombok.Data;
+import org.erp.school.client.child.activity.enums.ActivityCategory;
+import org.erp.school.client.child.user.User;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "activity")
 public class Activity {
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   private String id;
+
+  private ActivityCategory category;
+
+  private String referencing;
+
+  private String shortDescription;
+
+  private String description;
+
+  private Timestamp timestamp;
+
+  @OneToOne
+  private User by;
 }

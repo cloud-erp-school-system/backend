@@ -3,10 +3,11 @@ package org.erp.school.client;
 import lombok.Data;
 import org.erp.school.client.child.activity.Activity;
 import org.erp.school.client.child.address.Address;
-import org.erp.school.client.child.user.User;
 import org.erp.school.client.child.contract.Contract;
 import org.erp.school.client.child.document.Document;
 import org.erp.school.client.child.request.ClientRequest;
+import org.erp.school.client.child.user.User;
+import org.erp.school.global.enums.SizeCategory;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,7 +17,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "client")
 public class Client {
 
   @Id
@@ -24,10 +24,15 @@ public class Client {
   @GenericGenerator(name = "uuid", strategy = "uuid2")
   private String id;
 
-  @Column(name = "name")
   private String name;
 
-  @OneToOne private Address address;
+  private String website;
+
+  private SizeCategory staffSize;
+
+  private SizeCategory studentSize;
+
+  @OneToMany private Set<Address> address;
 
   @OneToMany private Set<User> users;
 
@@ -35,19 +40,16 @@ public class Client {
 
   @OneToMany private Set<Activity> activities;
 
-  @Column(name = "verification_status")
   private String verificationStatus;
 
-  @Column(name = "created_date")
   private Timestamp createdDate;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
-          name = "client_document",
-          joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
-          inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
+      name = "client_document",
+      joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
+      inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
   private List<Document> documents;
 
-  @OneToOne(mappedBy = "client")
-  private ClientRequest clientRequest;
+  @OneToMany private Set<ClientRequest> clientRequests;
 }
