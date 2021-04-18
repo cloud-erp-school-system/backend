@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
 
 @Service
@@ -24,7 +25,7 @@ public class RequestServiceImpl implements RequestService {
   @Transactional
   public RequestSummaryDto getRequestSummary() {
     var requestSummaryDto = new RequestSummaryDto();
-    var requestsByStatus = new HashMap<RequestStatus, Integer>();
+    var requestsByStatus = new EnumMap<RequestStatus, Integer>(RequestStatus.class);
 
     var allClientRequests = requestRepository.findAll();
 

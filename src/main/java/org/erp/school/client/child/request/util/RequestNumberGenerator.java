@@ -3,6 +3,8 @@ package org.erp.school.client.child.request.util;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -12,6 +14,8 @@ import java.sql.Statement;
 import java.util.Random;
 
 public class RequestNumberGenerator implements IdentifierGenerator {
+  private static final Logger logger = LoggerFactory.getLogger(IdentifierGenerator.class);
+
   private static final String PREFIX = "REQ";
   private static final int BOUNDARY = 99999999;
   private static final Random random = new Random();
@@ -29,8 +33,7 @@ public class RequestNumberGenerator implements IdentifierGenerator {
       } while (!unique(statement, id));
       return id;
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      logger.error("Cannot generate ID for request: {}", e.getMessage());
     }
     return null;
   }
