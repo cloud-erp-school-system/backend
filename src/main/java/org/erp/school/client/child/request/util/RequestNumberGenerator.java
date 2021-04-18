@@ -14,6 +14,7 @@ import java.util.Random;
 public class RequestNumberGenerator implements IdentifierGenerator {
   private static final String PREFIX = "REQ";
   private static final int BOUNDARY = 99999999;
+  private static final Random random = new Random();
 
   @Override
   public Serializable generate(
@@ -22,7 +23,6 @@ public class RequestNumberGenerator implements IdentifierGenerator {
     Connection connection = sharedSessionContractImplementor.connection();
     try {
       Statement statement = connection.createStatement();
-      Random random = new Random();
       String id;
       do {
         id = PREFIX + random.nextInt(BOUNDARY);
