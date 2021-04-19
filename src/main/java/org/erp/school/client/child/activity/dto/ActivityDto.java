@@ -1,15 +1,11 @@
 package org.erp.school.client.child.activity.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.erp.school.client.child.activity.enums.ActivityCategory;
-import org.erp.school.client.child.user.User;
 import org.erp.school.client.child.user.dto.UserDto;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Builder
@@ -18,19 +14,19 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class ActivityDto {
-
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String id;
 
+  @NotBlank private String referencing;
 
-  private ActivityCategory category;
-
-  private String referencing;
-
+  @NotBlank
+  @Size(max = 255, message = "Exceeded short description limit")
   private String shortDescription;
 
   private String description;
 
-  private Timestamp timestamp;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private Timestamp created;
 
-  private UserDto by;
+  @NotBlank private UserDto by;
 }
