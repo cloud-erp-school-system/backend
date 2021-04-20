@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class ActivityDto {
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String id;
 
   @NotBlank private String referencing;

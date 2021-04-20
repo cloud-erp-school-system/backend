@@ -1,11 +1,8 @@
 package org.erp.school.client.child.address.dto;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -17,11 +14,15 @@ public class AddressDto {
 
   private boolean primary;
 
+  @NotBlank
   private String street;
 
+  @NotBlank
   private String postcode;
 
+  @NotBlank
   private String city;
 
+  @NotBlank
   private String country;
 }

@@ -1,5 +1,6 @@
 package org.erp.school.client.child.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -12,13 +13,17 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-    private String username;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String username;
 
-    private String firstName;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String firstName;
 
-    private String lastName;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String lastName;
 
-    private String phone;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String phone;
 
-    private boolean primary;
+  private boolean primary;
 }

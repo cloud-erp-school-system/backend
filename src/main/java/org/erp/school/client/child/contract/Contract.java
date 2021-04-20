@@ -26,5 +26,4 @@ public class Contract {
     private String signedBy;
 
     private ContractStatus contractStatus;
-
 }
