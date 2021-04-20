@@ -1,4 +1,4 @@
-package org.erp.school.client.child.request.service.repository;
+package org.erp.school.client.child.request.repository;
 
 import org.erp.school.client.child.request.ClientRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

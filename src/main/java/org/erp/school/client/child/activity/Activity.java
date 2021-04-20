@@ -29,5 +29,5 @@ public class Activity {
   private Timestamp created;
 
   @OneToOne
-  private User by;
+  private User createdBy;
 }

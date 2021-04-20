@@ -1,47 +1,73 @@
 package org.erp.school.client.child.activity.service.impl;
 
 import org.erp.school.client.child.activity.dto.ActivityDto;
+import org.erp.school.client.child.activity.enums.ActivityCategory;
 import org.erp.school.client.child.activity.repository.ActivityRepository;
 import org.erp.school.client.child.activity.service.ActivityService;
+import org.erp.school.client.child.user.exception.UserNotFoundException;
+import org.erp.school.client.child.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultActivityService implements ActivityService {
 
   private final ActivityRepository activityRepository;
+  private final UserRepository userRepository;
 
-  public DefaultActivityService(ActivityRepository activityRepository) {
+  public DefaultActivityService(
+      ActivityRepository activityRepository, UserRepository userRepository) {
     this.activityRepository = activityRepository;
+    this.userRepository = userRepository;
   }
 
   @Override
   public Page<ActivityDto> getAllRequestActivity(
-      String clientId, String requestId, String category, Pageable pageable) {
-    return null;
+      String requestId, String category, Pageable pageable) {
+    var activityCategory = ActivityCategory.valueOf(category);
+    return new PageImpl<>(
+        activityRepository
+            .findAllByReferencingAndCategory(requestId, activityCategory, pageable)
+            .stream()
+            .map(ActivityDto::fromEntity)
+            .collect(Collectors.toList()),
+        pageable,
+        activityRepository.countByReferencingAndCategory(requestId, activityCategory));
   }
 
   @Override
   public Page<ActivityDto> getAllUserActivity(String username, String category, Pageable pageable) {
-    return null;
+    var activityCategory = ActivityCategory.valueOf(category);
+    var createdBy =
+        userRepository
+            .findById(username)
+            .orElseThrow(() -> new UserNotFoundException("Cannot find user with id: " + username));
+    return new PageImpl<>(
+        activityRepository
+            .findAllByCreatedByAndCategory(createdBy, activityCategory, pageable)
+            .stream()
+            .map(ActivityDto::fromEntity)
+            .collect(Collectors.toList()),
+        pageable,
+        activityRepository.countByCreatedByAndCategory(createdBy, activityCategory));
   }
 
   @Override
-  public ActivityDto getRequestActivity(String clientId, String requestId, String activityId) {
-    return null;
+  public ActivityDto getActivity(String id) {
+    var activity =
+        activityRepository
+            .findById(id)
+            .orElseThrow(() -> new UserNotFoundException("Cannot find activity with id: " + id));
+    return ActivityDto.fromEntity(activity);
   }
 
   @Override
-  public ActivityDto getUserActivity(String username, String activityId) {
-    return null;
-  }
-
-  @Override
-  public URI saveRequestActivity(
-      String clientId, String requestId, String category, ActivityDto dto) {
+  public URI saveRequestActivity(String requestId, String category, ActivityDto dto) {
     return null;
   }
 }

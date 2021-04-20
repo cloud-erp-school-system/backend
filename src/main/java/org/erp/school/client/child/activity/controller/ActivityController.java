@@ -20,32 +20,23 @@ public class ActivityController {
     this.activityService = activityService;
   }
 
-  @GetMapping("client/{clientId}/request/{requestId}/activity/{category}")
+  @GetMapping("request/{requestId}/activity/{category}")
   public ResponseEntity<Page<ActivityDto>> getAllRequestActivity(
-      @PathVariable String clientId,
-      @PathVariable String requestId,
-      @PathVariable String category,
-      Pageable pageable) {
-    return ResponseEntity.ok(
-        activityService.getAllRequestActivity(clientId, requestId, category, pageable));
+      @PathVariable String requestId, @PathVariable String category, Pageable pageable) {
+    return ResponseEntity.ok(activityService.getAllRequestActivity(requestId, category, pageable));
   }
 
-  @GetMapping("client/{clientId}/request/{requestId}/activity/{activityId}")
-  public ResponseEntity<ActivityDto> getRequestActivity(
-      @PathVariable String clientId,
-      @PathVariable String requestId,
-      @PathVariable String activityId) {
-    return ResponseEntity.ok(activityService.getRequestActivity(clientId, requestId, activityId));
+  @GetMapping("activity/{activityId}")
+  public ResponseEntity<ActivityDto> getRequestActivity(@PathVariable String activityId) {
+    return ResponseEntity.ok(activityService.getActivity(activityId));
   }
 
-  @PostMapping("client/{clientId}/request/{requestId}/activity/{category}")
+  @PostMapping("request/{requestId}/activity/{category}")
   public ResponseEntity<ActivityDto> postRequestActivity(
-      @PathVariable String clientId,
       @PathVariable String requestId,
       @PathVariable String category,
       @RequestBody @Valid ActivityDto dto) {
-    return ResponseEntity.created(
-            activityService.saveRequestActivity(clientId, requestId, category, dto))
+    return ResponseEntity.created(activityService.saveRequestActivity(requestId, category, dto))
         .build();
   }
 
@@ -53,11 +44,5 @@ public class ActivityController {
   public ResponseEntity<Page<ActivityDto>> getAllUserActivity(
       @PathVariable String username, @PathVariable String category, Pageable pageable) {
     return ResponseEntity.ok(activityService.getAllUserActivity(username, category, pageable));
-  }
-
-  @GetMapping("user/{username}/activity/{activityId}")
-  public ResponseEntity<ActivityDto> getUserActivity(
-      @PathVariable String username, @PathVariable String activityId) {
-    return ResponseEntity.ok(activityService.getUserActivity(username, activityId));
   }
 }
