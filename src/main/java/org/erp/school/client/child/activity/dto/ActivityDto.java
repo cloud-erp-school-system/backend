@@ -3,7 +3,6 @@ package org.erp.school.client.child.activity.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.erp.school.client.child.activity.Activity;
-import org.erp.school.client.child.user.dto.UserDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -28,13 +27,16 @@ public class ActivityDto {
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private Timestamp created;
 
-  @NotBlank private UserDto createdBy;
-
-  public static Activity toEntity(ActivityDto dto) {
-    return null;
-  }
+  @NotBlank private String createdBy;
 
   public static ActivityDto fromEntity(Activity entity) {
-    return null;
+    return ActivityDto.builder()
+        .created(entity.getCreated())
+        .createdBy(entity.getCreatedBy().getUsername())
+        .description(entity.getDescription())
+        .shortDescription(entity.getShortDescription())
+        .referencing(entity.getReferencing())
+        .id(entity.getId())
+        .build();
   }
 }

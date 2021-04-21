@@ -1,6 +1,9 @@
 package org.erp.school.client.child.activity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.erp.school.client.child.activity.enums.ActivityCategory;
 import org.erp.school.client.child.user.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +14,9 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Activity {
   @Id
   @GeneratedValue(generator = "uuid")
