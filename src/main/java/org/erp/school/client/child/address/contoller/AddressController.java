@@ -20,24 +20,23 @@ public class AddressController {
 
   @GetMapping("client/{clientId}/address")
   public ResponseEntity<Page<AddressDto>> getAllClientAddresses(@PathVariable String clientId) {
-    return null;
+    return ResponseEntity.ok(addressService.getAllClientAddresses(clientId));
   }
 
-  @GetMapping("client/{clientId}/address/{addressId}")
-  public ResponseEntity<AddressDto> getClientAddresses(
-      @PathVariable String clientId, @PathVariable String addressId) {
-    return null;
+  @GetMapping("address/{addressId}")
+  public ResponseEntity<AddressDto> getAddresses(@PathVariable String addressId) {
+    return ResponseEntity.ok(addressService.getAddress(addressId));
   }
 
   @GetMapping("client/{clientId}/address/primary")
   public ResponseEntity<AddressDto> getPrimaryClientAddresses(@PathVariable String clientId) {
-    return null;
+    return ResponseEntity.ok(addressService.getPrimaryClientAddress(clientId));
   }
 
   @PostMapping("client/{clientId}/address")
   public ResponseEntity<Void> saveClientAddress(
       @PathVariable String clientId, @RequestBody @Valid AddressDto addressDto) {
-    return null;
+    return ResponseEntity.created(addressService.saveClientAddress(clientId, addressDto)).build();
   }
 
   @PutMapping("client/{clientId}/address/{addressId}")
@@ -45,12 +44,13 @@ public class AddressController {
       @PathVariable String clientId,
       @PathVariable String addressId,
       @RequestBody @Valid AddressDto addressDto) {
-    return null;
+    addressService.updateAddress(clientId, addressId, addressDto);
+    return ResponseEntity.noContent().build();
   }
 
-  @DeleteMapping("client/{clientId}/address/{addressId}")
-  public ResponseEntity<Void> deleteClientAddresses(
-      @PathVariable String clientId, @PathVariable String addressId) {
-    return null;
+  @DeleteMapping("address/{addressId}")
+  public ResponseEntity<Void> deleteClientAddresses(@PathVariable String addressId) {
+    addressService.deleteClientAddress(addressId);
+    return ResponseEntity.noContent().build();
   }
 }

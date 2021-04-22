@@ -1,6 +1,7 @@
 package org.erp.school.client.child.address.dto;
 
 import lombok.*;
+import org.erp.school.client.child.address.Address;
 
 import javax.validation.constraints.NotBlank;
 
@@ -25,4 +26,8 @@ public class AddressDto {
 
   @NotBlank
   private String country;
+
+  public static AddressDto fromEntity(Address address) {
+    return null;
+  }
 }
