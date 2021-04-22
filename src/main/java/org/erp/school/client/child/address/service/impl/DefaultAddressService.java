@@ -1,6 +1,5 @@
 package org.erp.school.client.child.address.service.impl;
 
-import org.erp.school.client.Client;
 import org.erp.school.client.child.address.Address;
 import org.erp.school.client.child.address.dto.AddressDto;
 import org.erp.school.client.child.address.exception.AddressNotFoundException;
@@ -73,7 +72,7 @@ public class DefaultAddressService implements AddressService {
             .orElseThrow(
                 () -> new ClientNotFoundException(clientId));
     if (dto.isPrimary()) client.getAddress().forEach(element -> element.setPrimary(false));
-    Address address =
+    var address =
         addressRepository.save(
             Address.builder()
                 .country(dto.getCountry())
@@ -99,7 +98,7 @@ public class DefaultAddressService implements AddressService {
             .orElseThrow(
                 () -> new ClientNotFoundException(clientId));
     if (dto.isPrimary()) client.getAddress().forEach(element -> element.setPrimary(false));
-    Address address =
+    var address =
         addressRepository.save(
             Address.builder()
                 .id(clientId)

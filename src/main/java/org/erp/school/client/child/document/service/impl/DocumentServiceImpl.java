@@ -60,7 +60,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     // delete from database
     // 1. first the link to Client
-    Client client = clientRepository.findByDocumentsId(document.getId());
+    var client = clientRepository.findByDocumentsId(document.getId());
     client
         .getDocuments()
         .removeIf(clientDocument -> clientDocument.getId().equals(document.getId()));

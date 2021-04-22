@@ -3,10 +3,6 @@ package org.erp.school.client.child.user.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Getter
 @Setter
 @NoArgsConstructor

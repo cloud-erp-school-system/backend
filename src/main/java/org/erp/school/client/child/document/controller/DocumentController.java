@@ -71,15 +71,15 @@ public class DocumentController {
   public @ResponseBody ResponseEntity<Resource> getDocument(
       @Valid @PathVariable("documentId") String docId) {
     try {
-      File file = documentService.getDocument(docId);
-      FileSystemResource resource = new FileSystemResource(file);
-      MediaType mediaType =
+      var file = documentService.getDocument(docId);
+      var resource = new FileSystemResource(file);
+      var mediaType =
           MediaTypeFactory.getMediaType(resource).orElse(MediaType.APPLICATION_OCTET_STREAM);
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(mediaType);
       headers.setContentLength(file.length());
 
-      ContentDisposition disposition =
+      var disposition =
           ContentDisposition.builder("attachment").filename(file.getName()).build();
       headers.setContentDisposition(disposition);
       return new ResponseEntity<>(resource, headers, HttpStatus.OK);

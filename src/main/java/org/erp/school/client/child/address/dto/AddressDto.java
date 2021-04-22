@@ -15,19 +15,22 @@ public class AddressDto {
 
   private boolean primary;
 
-  @NotBlank
-  private String street;
+  @NotBlank private String street;
 
-  @NotBlank
-  private String postcode;
+  @NotBlank private String postcode;
 
-  @NotBlank
-  private String city;
+  @NotBlank private String city;
 
-  @NotBlank
-  private String country;
+  @NotBlank private String country;
 
   public static AddressDto fromEntity(Address address) {
-    return null;
+    return AddressDto.builder()
+        .id(address.getId())
+        .city(address.getCity())
+        .country(address.getCountry())
+        .postcode(address.getPostcode())
+        .primary(address.isPrimary())
+        .street(address.getStreet())
+        .build();
   }
 }

@@ -31,10 +31,10 @@ public class SecurityStagingConfiguration extends KeycloakWebSecurityConfigurerA
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) {
-    SimpleAuthorityMapper simpleAuthorityMapper = new SimpleAuthorityMapper();
+    var simpleAuthorityMapper = new SimpleAuthorityMapper();
     simpleAuthorityMapper.setPrefix("ROLE_");
 
-    KeycloakAuthenticationProvider keycloakAuthenticationProvider =
+    var keycloakAuthenticationProvider =
         keycloakAuthenticationProvider();
     keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(simpleAuthorityMapper);
     authenticationManagerBuilder.authenticationProvider(keycloakAuthenticationProvider);

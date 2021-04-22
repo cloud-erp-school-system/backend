@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.Random;
 
 public class RequestNumberGenerator implements IdentifierGenerator {
-  private static final Logger logger = LoggerFactory.getLogger(IdentifierGenerator.class);
+  private static final Logger logger = LoggerFactory.getLogger(RequestNumberGenerator.class);
 
   private static final String PREFIX = "REQ";
   private static final int BOUNDARY = 99999999;
@@ -24,9 +24,9 @@ public class RequestNumberGenerator implements IdentifierGenerator {
   public Serializable generate(
       SharedSessionContractImplementor sharedSessionContractImplementor, Object o)
       throws HibernateException {
-    Connection connection = sharedSessionContractImplementor.connection();
+    var connection = sharedSessionContractImplementor.connection();
     try {
-      Statement statement = connection.createStatement();
+      var statement = connection.createStatement();
       String id;
       do {
         id = PREFIX + random.nextInt(BOUNDARY);
@@ -44,7 +44,7 @@ public class RequestNumberGenerator implements IdentifierGenerator {
   }
 
   public boolean unique(Statement statement, String id) throws SQLException {
-    ResultSet rs =
+    var rs =
         statement.executeQuery("SELECT TOP 1 client.id FROM products WHERE client.id =" + id);
     return !rs.next();
   }
