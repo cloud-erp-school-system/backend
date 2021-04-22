@@ -34,7 +34,7 @@ public class DefaultAddressService implements AddressService {
         clientRepository
             .findById(clientId)
             .orElseThrow(
-                () -> new ClientNotFoundException("Cannot fine request with id: " + clientId));
+                () -> new ClientNotFoundException(clientId));
     return new PageImpl<>(
         client.getAddress().stream().map(AddressDto::fromEntity).collect(Collectors.toList()));
   }
@@ -46,7 +46,7 @@ public class DefaultAddressService implements AddressService {
             .findById(addressId)
             .orElseThrow(
                 () ->
-                    new AddressNotFoundException("Could not find address with id: " + addressId)));
+                    new AddressNotFoundException( addressId)));
   }
 
   @Override
@@ -55,15 +55,14 @@ public class DefaultAddressService implements AddressService {
         clientRepository
             .findById(clientId)
             .orElseThrow(
-                () -> new ClientNotFoundException("Cannot find client with id: " + clientId))
+                () -> new ClientNotFoundException(clientId))
             .getAddress()
             .stream()
             .filter(Address::isPrimary)
             .findFirst()
             .orElseThrow(
                 () ->
-                    new AddressNotFoundException(
-                        "There is not primary address for client id: " + clientId)));
+                    new AddressNotFoundException(clientId)));
   }
 
   @Override
@@ -72,7 +71,7 @@ public class DefaultAddressService implements AddressService {
         clientRepository
             .findById(clientId)
             .orElseThrow(
-                () -> new ClientNotFoundException("Cannot fine request with id: " + clientId));
+                () -> new ClientNotFoundException(clientId));
     if (dto.isPrimary()) client.getAddress().forEach(element -> element.setPrimary(false));
     Address address =
         addressRepository.save(
@@ -98,7 +97,7 @@ public class DefaultAddressService implements AddressService {
         clientRepository
             .findById(clientId)
             .orElseThrow(
-                () -> new ClientNotFoundException("Cannot fine request with id: " + clientId));
+                () -> new ClientNotFoundException(clientId));
     if (dto.isPrimary()) client.getAddress().forEach(element -> element.setPrimary(false));
     Address address =
         addressRepository.save(

@@ -3,9 +3,11 @@ package org.erp.school.client.child.activity.service.impl;
 import org.erp.school.client.child.activity.Activity;
 import org.erp.school.client.child.activity.dto.ActivityDto;
 import org.erp.school.client.child.activity.enums.ActivityCategory;
+import org.erp.school.client.child.activity.exception.ActivityNotFoundException;
 import org.erp.school.client.child.activity.exception.InvalidActivityCategoryException;
 import org.erp.school.client.child.activity.repository.ActivityRepository;
 import org.erp.school.client.child.activity.service.ActivityService;
+import org.erp.school.client.child.user.User;
 import org.erp.school.client.child.user.exception.UserNotFoundException;
 import org.erp.school.client.child.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -49,9 +51,7 @@ public class DefaultActivityService implements ActivityService {
   public Page<ActivityDto> getAllUserActivity(String username, String category, Pageable pageable) {
     var activityCategory = parseCategory(category);
     var createdBy =
-        userRepository
-            .findById(username)
-            .orElseThrow(() -> new UserNotFoundException("Cannot find user with id: " + username));
+        getUser(username);
     return new PageImpl<>(
         activityRepository
             .findAllByCreatedByAndCategory(createdBy, activityCategory, pageable)
@@ -67,19 +67,14 @@ public class DefaultActivityService implements ActivityService {
     var activity =
         activityRepository
             .findById(id)
-            .orElseThrow(() -> new UserNotFoundException("Cannot find activity with id: " + id));
+            .orElseThrow(
+                () -> new ActivityNotFoundException("Cannot find activity with id: " + id));
     return ActivityDto.fromEntity(activity);
   }
 
   @Override
   public URI saveRequestActivity(String requestId, String category, ActivityDto dto) {
-    var user =
-        userRepository
-            .findById(dto.getCreatedBy())
-            .orElseThrow(
-                () ->
-                    new UserNotFoundException(
-                        "Cannot find user with username: " + dto.getCreatedBy()));
+    var user = getUser(dto.getCreatedBy());
     var activity =
         activityRepository.save(
             Activity.builder()
@@ -103,5 +98,12 @@ public class DefaultActivityService implements ActivityService {
     } catch (Exception e) {
       throw new InvalidActivityCategoryException("Category " + category + " does not exist");
     }
+  }
+
+  private User getUser(String username) {
+    return userRepository
+        .findById(username)
+        .orElseThrow(
+            () -> new UserNotFoundException("Cannot find user with username: " + username));
   }
 }
