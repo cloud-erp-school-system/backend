@@ -3,11 +3,10 @@ package org.erp.school.client;
 import lombok.Data;
 import org.erp.school.activity.Activity;
 import org.erp.school.address.Address;
-import org.erp.school.document.contract.Contract;
 import org.erp.school.document.Document;
+import org.erp.school.global.enums.SizeCategory;
 import org.erp.school.request.ClientRequest;
 import org.erp.school.user.User;
-import org.erp.school.global.enums.SizeCategory;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ import java.util.Set;
 @Data
 @Entity
 public class Client {
-
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -32,17 +30,30 @@ public class Client {
 
   private SizeCategory studentSize;
 
-  @OneToMany private Set<Address> address;
+  @OneToMany
+  @JoinTable(
+      name = "client_address",
+      joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
+  private Set<Address> address;
 
-  @OneToMany private Set<User> users;
-
-  @OneToMany private Set<Contract> contracts;
-
-  @OneToMany private Set<Activity> activities;
+  @OneToMany
+  @JoinTable(
+      name = "client_user",
+      joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "id"))
+  private Set<User> users;
 
   private String verificationStatus;
 
   private Timestamp createdDate;
+
+  @OneToMany
+  @JoinTable(
+      name = "client_activity",
+      joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "activity_id", referencedColumnName = "id"))
+  private Set<Activity> activities;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(
@@ -51,5 +62,10 @@ public class Client {
       inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id")})
   private List<Document> documents;
 
-  @OneToMany private Set<ClientRequest> clientRequests;
+  @OneToMany
+  @JoinTable(
+      name = "client_request",
+      joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "request_id", referencedColumnName = "id"))
+  private Set<ClientRequest> clientRequests;
 }
