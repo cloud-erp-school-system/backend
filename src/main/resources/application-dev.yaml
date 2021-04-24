@@ -13,6 +13,7 @@ spring:
   flyway:
     check-location: true
     enabled: true
+    locations: classpath:db/migration/core,classpath:db/migration/entries
   h2:
     console:
       enabled: true
