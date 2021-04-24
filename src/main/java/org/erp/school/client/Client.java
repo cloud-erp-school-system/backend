@@ -1,12 +1,12 @@
 package org.erp.school.client;
 
 import lombok.Data;
-import org.erp.school.client.child.activity.Activity;
-import org.erp.school.client.child.address.Address;
-import org.erp.school.client.child.contract.Contract;
-import org.erp.school.client.child.document.Document;
-import org.erp.school.client.child.request.ClientRequest;
-import org.erp.school.client.child.user.User;
+import org.erp.school.activity.Activity;
+import org.erp.school.address.Address;
+import org.erp.school.contract.Contract;
+import org.erp.school.document.Document;
+import org.erp.school.request.ClientRequest;
+import org.erp.school.user.User;
 import org.erp.school.global.enums.SizeCategory;
 import org.hibernate.annotations.GenericGenerator;
 

@@ -2,8 +2,8 @@ package org.erp.school.client.controller;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.erp.school.client.child.document.dto.DocumentDto;
-import org.erp.school.client.child.document.service.DocumentService;
+import org.erp.school.document.dto.DocumentDto;
+import org.erp.school.document.service.DocumentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
