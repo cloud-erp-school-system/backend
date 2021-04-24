@@ -1,10 +1,10 @@
-package org.erp.school.contract.dto;
+package org.erp.school.document.contract.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.erp.school.contract.enums.ContractStatus;
+import org.erp.school.document.contract.enums.ContractStatus;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;

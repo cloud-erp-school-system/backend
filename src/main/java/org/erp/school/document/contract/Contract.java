@@ -1,7 +1,7 @@
-package org.erp.school.contract;
+package org.erp.school.document.contract;
 
 import lombok.Data;
-import org.erp.school.contract.enums.ContractStatus;
+import org.erp.school.document.contract.enums.ContractStatus;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;

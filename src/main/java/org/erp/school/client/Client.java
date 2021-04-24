@@ -3,7 +3,7 @@ package org.erp.school.client;
 import lombok.Data;
 import org.erp.school.activity.Activity;
 import org.erp.school.address.Address;
-import org.erp.school.contract.Contract;
+import org.erp.school.document.contract.Contract;
 import org.erp.school.document.Document;
 import org.erp.school.request.ClientRequest;
 import org.erp.school.user.User;
