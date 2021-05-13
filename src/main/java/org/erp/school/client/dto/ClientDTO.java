@@ -1,26 +1,12 @@
 package org.erp.school.client.dto;
 
 import lombok.*;
-import org.erp.school.activity.Activity;
-import org.erp.school.activity.dto.ActivityDto;
-import org.erp.school.address.Address;
-import org.erp.school.address.dto.AddressDto;
-import org.erp.school.document.Document;
-import org.erp.school.document.contract.Contract;
-import org.erp.school.document.contract.dto.ContractDto;
-import org.erp.school.document.dto.DocumentDto;
+import org.erp.school.client.Client;
 import org.erp.school.global.enums.SizeCategory;
-import org.erp.school.request.ClientRequest;
-import org.erp.school.request.dto.RequestSummaryDto;
-import org.erp.school.user.User;
-import org.erp.school.user.dto.UserDto;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.domain.Page;
+import org.hibernate.validator.constraints.URL;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,25 +16,27 @@ import java.util.Set;
 public class ClientDTO {
   private String id;
 
-  private String name;
+  @NotBlank private String name;
 
-  private String website;
+  @URL private String website;
 
   private SizeCategory staffSize;
 
   private SizeCategory studentSize;
 
-  private Page<AddressDto> address;
-
-  private Page<UserDto> users;
-
-  private Page<ActivityDto> activities;
-
-  private String verificationStatus;
+  @NotBlank private String verificationStatus;
 
   private Timestamp createdDate;
 
-  private Page<DocumentDto> documents;
-
-  private Page<RequestSummaryDto> clientRequests;
+  public static ClientDTO fromEntity(Client client) {
+    return ClientDTO.builder()
+        .createdDate(client.getCreatedDate())
+        .id(client.getId())
+        .name(client.getName())
+        .staffSize(client.getStaffSize())
+        .studentSize(client.getStudentSize())
+        .verificationStatus(client.getVerificationStatus())
+        .website(client.getWebsite())
+        .build();
+  }
 }
