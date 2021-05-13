@@ -1,12 +1,26 @@
 package org.erp.school.client.dto;
 
 import lombok.*;
-import org.erp.school.client.Client;
+import org.erp.school.activity.Activity;
+import org.erp.school.activity.dto.ActivityDto;
+import org.erp.school.address.Address;
+import org.erp.school.address.dto.AddressDto;
+import org.erp.school.document.Document;
+import org.erp.school.document.contract.Contract;
+import org.erp.school.document.contract.dto.ContractDto;
+import org.erp.school.document.dto.DocumentDto;
 import org.erp.school.global.enums.SizeCategory;
-import org.hibernate.validator.constraints.URL;
+import org.erp.school.request.ClientRequest;
+import org.erp.school.request.dto.RequestSummaryDto;
+import org.erp.school.user.User;
+import org.erp.school.user.dto.UserDto;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.domain.Page;
 
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,27 +30,25 @@ import java.sql.Timestamp;
 public class ClientDTO {
   private String id;
 
-  @NotBlank private String name;
+  private String name;
 
-  @URL private String website;
+  private String website;
 
   private SizeCategory staffSize;
 
   private SizeCategory studentSize;
 
-  @NotBlank private String verificationStatus;
+  private Page<AddressDto> address;
+
+  private Page<UserDto> users;
+
+  private Page<ActivityDto> activities;
+
+  private String verificationStatus;
 
   private Timestamp createdDate;
 
-  public static ClientDTO fromEntity(Client client) {
-    return ClientDTO.builder()
-        .createdDate(client.getCreatedDate())
-        .id(client.getId())
-        .name(client.getName())
-        .staffSize(client.getStaffSize())
-        .studentSize(client.getStudentSize())
-        .verificationStatus(client.getVerificationStatus())
-        .website(client.getWebsite())
-        .build();
-  }
+  private Page<DocumentDto> documents;
+
+  private Page<RequestSummaryDto> clientRequests;
 }
