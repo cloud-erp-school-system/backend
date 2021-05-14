@@ -52,7 +52,7 @@ public class Client {
   @JoinTable(
       name = "client_user",
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "id"))
+      inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
   private Set<User> users;
 
   @OneToMany
@@ -62,7 +62,7 @@ public class Client {
       inverseJoinColumns = @JoinColumn(name = "activity_id", referencedColumnName = "id"))
   private Set<Activity> activities;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany
   @JoinTable(
       name = "client_document",
       joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},

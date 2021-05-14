@@ -43,6 +43,25 @@ public class DocumentController {
     this.documentService = documentService;
   }
 
+
+  @GetMapping(
+          path = "/{clientId}/documents",
+          name = "Endpoint for fetching all documents for an client")
+  public @ResponseBody ResponseEntity<List<DocumentDto>> fetchDocuments(
+          @Valid @PathVariable("clientId") String clientId) {
+    try {
+      var documentDtoList =
+              documentService.fetchDocumentsClientId(clientId).stream()
+                      .map(document -> new DocumentDto(document.getId(), document.getUri()))
+                      .collect(Collectors.toList());
+      return new ResponseEntity<>(documentDtoList, HttpStatus.OK);
+    } catch (Exception ex) {
+      log.error("Could not fetch documents for client {}", clientId, ex);
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+
   @PostMapping(name = "Endpoint for uploading documents")
   public @ResponseBody ResponseEntity<List<DocumentDto>> postDocuments(
       @RequestParam(name = "clientId", required = false) String clientId,
