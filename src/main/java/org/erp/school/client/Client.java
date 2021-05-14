@@ -29,6 +29,10 @@ public class Client {
   private SizeCategory staffSize;
 
   private SizeCategory studentSize;
+  
+  private String verificationStatus;
+
+  private Timestamp createdDate;
 
   @OneToMany
   @JoinTable(
@@ -43,10 +47,6 @@ public class Client {
       joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "username", referencedColumnName = "id"))
   private Set<User> users;
-
-  private String verificationStatus;
-
-  private Timestamp createdDate;
 
   @OneToMany
   @JoinTable(
