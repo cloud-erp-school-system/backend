@@ -27,7 +27,7 @@ public class DefaultClientService implements ClientService {
 
   @Override
   public ClientDTO getClient(String id) {
-    Client client =
+    var client =
         clientRepository
             .findById(id)
             .orElseThrow(() -> new ClientNotFoundException("Cannot find client with id:" + id));
