@@ -35,7 +35,6 @@ class DocumentServiceImplTest {
     void fetchDocumentsClientId() {
         when(clientRepository.findById(eq("Test_Client"))).thenReturn(ClientPrototype.getTestClient());
         List<Document> testDocs =  documentService.fetchDocumentsClientId("Test_Client");
-        System.out.println(testDocs);
         assertThat(testDocs).isNotNull();
     }
 
