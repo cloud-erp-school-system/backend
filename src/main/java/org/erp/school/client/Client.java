@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.erp.school.activity.Activity;
 import org.erp.school.address.Address;
-import org.erp.school.client.dto.ClientDTO;
+import org.erp.school.client.dto.ClientDto;
 import org.erp.school.document.Document;
 import org.erp.school.global.enums.SizeCategory;
 import org.erp.school.request.ClientRequest;
@@ -76,7 +76,7 @@ public class Client {
       inverseJoinColumns = @JoinColumn(name = "request_id", referencedColumnName = "id"))
   private Set<ClientRequest> clientRequests;
 
-  public static Client fromDto(ClientDTO dto) {
+  public static Client fromDto(ClientDto dto) {
     return Client.builder()
             .createdDate(dto.getCreatedDate())
             .id(dto.getId())

@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @Builder
-public class ClientDTO {
+public class ClientDto {
     private String id;
 
     @NotBlank private String name;
@@ -28,8 +28,8 @@ public class ClientDTO {
 
     private Timestamp createdDate;
 
-    public static ClientDTO fromEntity(Client client) {
-        return ClientDTO.builder()
+    public static ClientDto fromEntity(Client client) {
+        return ClientDto.builder()
                 .createdDate(client.getCreatedDate())
                 .id(client.getId())
                 .name(client.getName())
