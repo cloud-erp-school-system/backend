@@ -1,7 +1,7 @@
 package org.erp.school.client.services.impl;
 
 import org.erp.school.client.Client;
-import org.erp.school.client.dto.ClientDTO;
+import org.erp.school.client.dto.ClientDto;
 import org.erp.school.client.exception.ClientNotFoundException;
 import org.erp.school.client.repository.ClientRepository;
 import org.erp.school.client.services.ClientService;
@@ -21,21 +21,21 @@ public class DefaultClientService implements ClientService {
   }
 
   @Override
-  public Page<ClientDTO> getAllClients(Pageable pageable) {
-    return clientRepository.findAll(pageable).map(ClientDTO::fromEntity);
+  public Page<ClientDto> getAllClients(Pageable pageable) {
+    return clientRepository.findAll(pageable).map(ClientDto::fromEntity);
   }
 
   @Override
-  public ClientDTO getClient(String id) {
+  public ClientDto getClient(String id) {
     Client client =
         clientRepository
             .findById(id)
             .orElseThrow(() -> new ClientNotFoundException("Cannot find client with id:" + id));
-    return ClientDTO.fromEntity(client);
+    return ClientDto.fromEntity(client);
   }
 
   @Override
-  public URI saveClient(ClientDTO dto) {
+  public URI saveClient(ClientDto dto) {
     return ServletUriComponentsBuilder.fromCurrentRequest()
         .path("client")
         .buildAndExpand(clientRepository.save(Client.fromDto(dto)))
@@ -43,7 +43,7 @@ public class DefaultClientService implements ClientService {
   }
 
   @Override
-  public void updateClient(ClientDTO dto) {
+  public void updateClient(ClientDto dto) {
     clientRepository
         .findById(dto.getId())
         .orElseThrow(

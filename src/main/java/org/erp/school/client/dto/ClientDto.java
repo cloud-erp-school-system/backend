@@ -27,7 +27,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
-public class ClientDTO {
+public class ClientDto {
   private String id;
 
   private String name;
