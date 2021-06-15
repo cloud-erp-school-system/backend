@@ -35,5 +35,6 @@ public class Activity {
   private Timestamp created;
 
   @OneToOne
+  @JoinColumn(name = "created_by_id", referencedColumnName = "username")
   private User createdBy;
 }

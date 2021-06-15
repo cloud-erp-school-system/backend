@@ -2,46 +2,53 @@ package org.erp.school.client.controller;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.erp.school.document.dto.DocumentDto;
-import org.erp.school.document.service.DocumentService;
-import org.springframework.http.HttpStatus;
+import org.erp.school.client.dto.ClientDto;
+import org.erp.school.client.services.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@Api
 @RequestMapping("/client")
+@Api
 @Slf4j
 public class ClientController {
 
-  private final DocumentService documentService;
+  private final ClientService clientService;
 
-  public ClientController(DocumentService documentService) {
-    this.documentService = documentService;
+  public ClientController(ClientService clientService) {
+    this.clientService = clientService;
   }
 
-  @GetMapping(
-      path = "/{clientId}/documents",
-      name = "Endpoint for fetching all documents for an client")
-  public @ResponseBody ResponseEntity<List<DocumentDto>> fetchDocuments(
-      @Valid @PathVariable("clientId") String clientId) {
-    try {
-      var documentDtoList =
-          documentService.fetchDocumentsClientId(clientId).stream()
-              .map(document -> new DocumentDto(document.getId(), document.getUri()))
-              .collect(Collectors.toList());
-      return new ResponseEntity<>(documentDtoList, HttpStatus.OK);
-    } catch (Exception ex) {
-      log.error("Could not fetch documents for client {}", clientId, ex);
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  @GetMapping
+  public ResponseEntity<Page<ClientDto>> getAllClients(Pageable pageable) {
+    return ResponseEntity.ok(clientService.getAllClients(pageable));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<ClientDto> getClient(@PathVariable String id) {
+    return ResponseEntity.ok(clientService.getClient(id));
+  }
+
+  @PostMapping
+  public ResponseEntity<Void> saveClient(@RequestBody @Valid ClientDto dto) {
+    return ResponseEntity.created(clientService.saveClient(dto)).build();
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Void> updateClient(
+          @RequestBody @Valid ClientDto dto, @PathVariable String id) {
+    dto.setId(id);
+    clientService.updateClient(dto);
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteClient(@PathVariable String id) {
+    clientService.deleteClient(id);
+    return ResponseEntity.noContent().build();
   }
 }
